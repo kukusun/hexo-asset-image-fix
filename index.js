@@ -10,7 +10,7 @@ hexo.extend.filter.register('after_post_render', function(data){
   var config = hexo.config;
   if(config.post_asset_folder){
     var link = data.permalink;
-    var beginPos = getPosition(link, '/', 3) + 1;
+    var beginPos = getPosition(link, '/', 4) + 1;
     var appendLink = '';
     // In hexo 3.1.1, the permalink of "about" page is like ".../about/index.html".
     // if not with index.html endpos = link.lastIndexOf('.') + 1 support hexo-abbrlink
@@ -51,10 +51,11 @@ hexo.extend.filter.register('after_post_render', function(data){
             var srcArray = src.split('/').filter(function(elem){
               return elem != '' && elem != '.';
             });
-            if(srcArray.length > 1)
-            srcArray.shift();
-            src = srcArray.join('/');
-
+            if(srcArray.length > 1){
+              src = srcArray[srcArray.length - 1];
+            }else{
+              src = srcArray.join('/');
+            }
             $(this).attr('src', config.root + link + src);
             console.info&&console.info("update link as:-->"+config.root + link + src);
           }
